@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "Easy Postman",
+  "version": "1.0",
+  "description": "一个简化版Postman工具，支持HTTP请求调试，可离线使用。",
+  "icons": {
+    "16": "./favicon/favicon-96x96.png",
+    "48": "./favicon/favicon-96x96.png",
+    "128": "./favicon/favicon-96x96.png"
+  },
+  "action": {
+    "default_icon": {
+      "128": "./favicon/favicon-96x96.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "tabs"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ]
+}
