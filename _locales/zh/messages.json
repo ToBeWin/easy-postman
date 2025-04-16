@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "Easy Postman",
+    "description": "The name of the application"
+  },
+  "appDesc": {
+    "message": "一个简化版Postman工具，支持HTTP请求调试，可离线使用，支持多语言和主题切换。",
+    "description": "The description of the application"
+  }
+} 

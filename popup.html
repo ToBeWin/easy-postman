@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
   <meta charset="UTF-8">
   <link rel="icon" type="image/png" href="./favicon/favicon-96x96.png" sizes="96x96" />
@@ -9,44 +9,99 @@
   <link rel="manifest" href="./favicon/site.webmanifest" />
   <title>Easy Postman</title>
   <style>
+    /* CSS变量定义 - 会被主题替换 */
+    :root {
+      --background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+      --card-background: #fff;
+      --text-color: #2d3748;
+      --heading-color: #3182ce;
+      --input-border: #e2e8f0;
+      --button-primary: #3182ce;
+      --button-secondary: #718096;
+      --button-danger: #e53e3e;
+      --button-disabled: #cbd5e0;
+      --code-background: #2d3748;
+      --code-text: #e2e8f0;
+      --box-shadow: 0 4px 6px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
     /* 通用样式 */
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      background: linear-gradient(135deg, #ece9e6, #ffffff);
+      background: var(--background);
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      color: #333;
+      color: var(--text-color);
       padding: 15px;
+      transition: background 0.3s ease;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
-    .container { max-width: 1000px; margin: auto; }
+    .container { 
+      max-width: 1000px; 
+      margin: 0 auto; 
+      flex: 1;
+    }
+    
+    .header-area {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .app-title {
+      font-size: 2rem;
+      color: var(--heading-color);
+      flex: 1;
+      text-align: center;
+    }
+    
     h1, h2, h3 { margin-bottom: 10px; }
-    h1 { text-align: center; font-size: 2rem; color: #007bff; }
     .card {
-      background: #fff;
+      background: var(--card-background);
       border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      box-shadow: var(--box-shadow);
       margin-bottom: 20px;
       padding: 20px;
+      transition: all 0.3s ease;
     }
     label { display: block; margin-top: 10px; font-weight: 600; }
     input[type="text"], input[type="number"], select, textarea {
       width: 100%; padding: 8px; margin-top: 5px;
-      border: 1px solid #ccc; border-radius: 4px;
+      border: 1px solid var(--input-border); border-radius: 4px;
+      background: var(--card-background);
+      color: var(--text-color);
+      transition: border-color 0.3s ease;
+    }
+    input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--button-primary);
+      box-shadow: 0 0 0 2px rgba(49, 130, 206, 0.2);
     }
     textarea { resize: vertical; height: 150px; }
     table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-    table, th, td { border: 1px solid #ddd; }
+    table, th, td { border: 1px solid var(--input-border); }
     th, td { padding: 8px; text-align: left; }
     .btn {
       display: inline-block; margin-top: 10px; padding: 8px 15px;
-      font-size: 14px; color: #fff; background-color: #007bff;
+      font-size: 14px; color: #fff; background-color: var(--button-primary);
       border: none; border-radius: 4px; cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.1s ease;
     }
-    .btn-secondary { background-color: #6c757d; }
-    .btn-danger { background-color: #dc3545; }
-    .btn:disabled { background-color: #ccc; cursor: not-allowed; }
+    .btn:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+    .btn:active {
+      transform: translateY(0);
+    }
+    .btn-secondary { background-color: var(--button-secondary); }
+    .btn-danger { background-color: var(--button-danger); }
+    .btn:disabled { background-color: var(--button-disabled); cursor: not-allowed; }
     pre {
-      background-color: #2e3440;
-      color: #d8dee9;
+      background-color: var(--code-background);
+      color: var(--code-text);
       padding: 10px;
       border-radius: 4px;
       overflow-x: auto;
@@ -55,22 +110,120 @@
     .d-flex { display: flex; align-items: center; gap: 10px; }
     .mt-10 { margin-top: 10px; }
     .fw-bold { font-weight: bold; }
+    
+    /* 设置面板样式 */
+    .settings-panel {
+      display: flex;
+      gap: 15px;
+      background: var(--card-background);
+      padding: 10px 15px;
+      border-radius: 30px;
+      box-shadow: var(--box-shadow);
+    }
+    
+    .settings-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .settings-label {
+      font-weight: 600;
+      font-size: 14px;
+    }
+    
+    .settings-select {
+      padding: 6px 10px;
+      border-radius: 4px;
+      border: 1px solid var(--input-border);
+      background: var(--card-background);
+      color: var(--text-color);
+      font-size: 14px;
+      cursor: pointer;
+    }
+    
+    /* 版权信息 */
+    .footer {
+      text-align: center;
+      margin-top: 30px;
+      padding: 15px 0;
+      font-size: 14px;
+      color: var(--text-color);
+      opacity: 0.8;
+    }
+    
+    .footer a {
+      color: var(--heading-color);
+      text-decoration: none;
+    }
+    
+    .footer a:hover {
+      text-decoration: underline;
+    }
+    
+    /* 响应式调整 */
+    @media (max-width: 768px) {
+      .header-area {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .app-title {
+        margin: 0;
+      }
+      
+      .d-flex { 
+        flex-direction: column; 
+        align-items: flex-start; 
+      }
+      
+      .settings-panel {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        border-radius: 8px;
+      }
+      
+      .settings-item {
+        flex: 1;
+        min-width: 150px;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>离线 Postman 工具</h1>
+    <!-- 标题和设置区域 -->
+    <div class="header-area">
+      <div style="width: 200px;"></div> <!-- 占位元素，保持标题居中 -->
+      <h1 class="app-title" id="title">Easy Postman</h1>
+      
+      <!-- 设置面板 -->
+      <div class="settings-panel">
+        <div class="settings-item">
+          <span class="settings-label" id="languageLabel">语言</span>
+          <select id="languageSelector" class="settings-select">
+            <option value="en">English</option>
+            <option value="zh">中文</option>
+          </select>
+        </div>
+        <div class="settings-item">
+          <span class="settings-label" id="themeLabel">主题</span>
+          <select id="themeSelector" class="settings-select"></select>
+        </div>
+      </div>
+    </div>
     
     <!-- 请求配置卡片 -->
     <div class="card">
-      <h2>请求配置</h2>
+      <h2 id="requestConfigTitle">请求配置</h2>
       
-      <label for="url">请求 URL:</label>
+      <label for="url" id="urlLabel">请求 URL:</label>
       <input type="text" id="url" value="https://jsonplaceholder.typicode.com/posts">
       
       <div class="d-flex">
         <div style="flex:1;">
-          <label for="method">请求方法:</label>
+          <label for="method" id="methodLabel">请求方法:</label>
           <select id="method">
             <option value="GET" selected>GET</option>
             <option value="POST">POST</option>
@@ -80,7 +233,7 @@
           </select>
         </div>
         <div style="flex:1;">
-          <label for="contentType">Content-Type:</label>
+          <label for="contentType" id="contentTypeLabel">Content-Type:</label>
           <select id="contentType">
             <option value="application/json" selected>application/json</option>
             <option value="application/x-www-form-urlencoded">application/x-www-form-urlencoded</option>
@@ -88,20 +241,20 @@
           </select>
         </div>
         <div style="flex:1;">
-          <label for="timeout">超时（毫秒）:</label>
+          <label for="timeout" id="timeoutLabel">超时（毫秒）:</label>
           <input type="number" id="timeout" value="60000">
         </div>
       </div>
       
       <!-- URL 参数部分 -->
       <div class="mt-10">
-        <h3>URL 参数</h3>
+        <h3 id="urlParamsTitle">URL 参数</h3>
         <table id="urlParamsTable">
           <thead>
             <tr>
-              <th style="width:40%;">Key</th>
-              <th style="width:40%;">Value</th>
-              <th style="width:20%;">操作</th>
+              <th style="width:40%;" id="keyHeader">Key</th>
+              <th style="width:40%;" id="valueHeader">Value</th>
+              <th style="width:20%;" id="actionsHeader">操作</th>
             </tr>
           </thead>
           <tbody></tbody>
@@ -111,13 +264,13 @@
       
       <!-- Header 参数部分 -->
       <div class="mt-10">
-        <h3>请求 Headers</h3>
+        <h3 id="headersTitle">请求 Headers</h3>
         <table id="headerParamsTable">
           <thead>
             <tr>
-              <th style="width:40%;">Key</th>
-              <th style="width:40%;">Value</th>
-              <th style="width:20%;">操作</th>
+              <th style="width:40%;" id="keyHeaderHeader">Key</th>
+              <th style="width:40%;" id="valueHeaderHeader">Value</th>
+              <th style="width:20%;" id="actionsHeaderHeader">操作</th>
             </tr>
           </thead>
           <tbody></tbody>
@@ -127,7 +280,7 @@
       
       <!-- 请求体部分 -->
       <div class="mt-10">
-        <h3>请求体 <small style="font-weight:normal; color:#666;">(仅适用于 POST/PUT/PATCH 请求)</small></h3>
+        <h3 id="bodyTitle">请求体 <small id="bodySubtitle" style="font-weight:normal; color:#666;">(仅适用于 POST/PUT/PATCH 请求)</small></h3>
         <textarea id="body" placeholder='例如: {"name": "张三", "age": 30}'></textarea>
       </div>
       
@@ -136,15 +289,15 @@
     
     <!-- 请求详情 -->
     <div class="card">
-      <h2>请求详情</h2>
+      <h2 id="requestDetailsTitle">请求详情</h2>
       <pre id="requestInfo"></pre>
     </div>
     
     <!-- 响应详情 -->
     <div class="card">
-      <h2>响应详情</h2>
+      <h2 id="responseDetailsTitle">响应详情</h2>
       <div class="d-flex">
-        <label>结果展示类型:</label>
+        <label id="resultFormatLabel">结果展示类型:</label>
         <select id="resultFormat" class="form-select" style="max-width: 200px;">
           <option value="formatted" selected>格式化显示</option>
           <option value="raw">原文</option>
@@ -156,7 +309,13 @@
     </div>
   </div>
   
-  <!-- 引入外部JS文件，解决内联脚本问题 -->
-  <script src="popup.js"></script>
+  <!-- 页脚版权信息 -->
+  <div class="footer" id="copyright">
+    <p>© <span id="currentYear">2023</span> Easy Postman. <span id="copyrightText">保留所有权利。</span></p>
+    <p id="versionInfo">版本 1.1</p>
+  </div>
+  
+  <!-- 引入模块 -->
+  <script type="module" src="popup.js"></script>
 </body>
 </html>

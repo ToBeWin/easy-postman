@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "Easy Postman",
+    "description": "The name of the application"
+  },
+  "appDesc": {
+    "message": "A simplified Postman tool for HTTP request testing, with multilingual support and themes.",
+    "description": "The description of the application"
+  }
+} 
